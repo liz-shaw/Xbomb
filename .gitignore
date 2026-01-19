@@ -4,10 +4,7 @@
 # 跟踪 .gitignore 本身
 !.gitignore
 
-# 保留父目录
-!AI-ML-DL-RL/
-!CodingBasics/
-!ME/
+
 
 # 反选 GPU 文件夹
 !AI-ML-DL-RL/GPU&DEEPLEARNING/
