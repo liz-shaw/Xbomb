@@ -7,13 +7,13 @@
 
 
 # 反选 GPU 文件夹
-!AI-ML-DL-RL/GPU-DEEPLEARNING/
-!AI-ML-DL-RL/GPU-DEEPLEARNING/**
+!"AI-ML-DL-RL/GPU-DEEPLEARNING/"
+!"AI-ML-DL-RL/GPU-DEEPLEARNING/**"
 
 # 反选 C++ 大一思维导图
-!CodingBasics/Cpp/mindmap/
-!CodingBasics/Cpp/mindmap/**
+!"CodingBasics/Cpp/mindmap/"
+!"CodingBasics/Cpp/mindmap/**"
 
 # 反选 ME 文件夹
-!ME/
-!ME/**
+!"ME/"
+!"ME/**"
