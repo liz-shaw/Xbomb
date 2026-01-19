@@ -3,6 +3,6 @@
 
 # 反选想跟踪的文件夹
 !.gitignore
-!AI_ML-DL-RL/GPU&DEEPLEARNING/
+!AI-ML-DL-RL/GPU&DEEPLEARNING/
 !CodingBasics/C++/大一思维导图/
 !ME/
