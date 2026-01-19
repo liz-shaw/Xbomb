@@ -1,19 +1,22 @@
-# 忽略所有文件
+# 1. 忽略所有文件
 *
 
-# 跟踪 .gitignore 本身
+# 2. 允许跟踪 .gitignore 本身
 !.gitignore
 
+# 3. 反选 GPU 文件夹
+# 必须先允许 Git 进入父目录，否则它看不到里面的子目录
+!AI-ML-DL-RL/
+AI-ML-DL-RL/*
+!AI-ML-DL-RL/GPU-DEEPLEARNING/
 
+# 4. 反选 C++ 大一思维导图
+!CodingBasics/
+CodingBasics/*
+!CodingBasics/Cpp/
+CodingBasics/Cpp/*
+!CodingBasics/Cpp/mindmap/
 
-# 反选 GPU 文件夹
-!"AI-ML-DL-RL/GPU-DEEPLEARNING/"
-!"AI-ML-DL-RL/GPU-DEEPLEARNING/**"
-
-# 反选 C++ 大一思维导图
-!"CodingBasics/Cpp/mindmap/"
-!"CodingBasics/Cpp/mindmap/**"
-
-# 反选 ME 文件夹
-!"ME/"
-!"ME/**"
+# 5. 反选 ME 文件夹
+!ME/
+!ME/**
