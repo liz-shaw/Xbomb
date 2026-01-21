@@ -20,6 +20,8 @@ AI-ML-DL-RL/*
 !AI-ML-DL-RL/GPU-DEEPLEARNING/**
 !AI-ML-DL-RL/ROS2/
 !AI-ML-DL-RL/ROS2/**
+!AI-ML-DL-RL/TOPICS/
+!AI-ML-DL-RL/TOPICS/**
 
 
 # --------------------------------

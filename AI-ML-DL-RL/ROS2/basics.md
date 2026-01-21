@@ -33,16 +33,24 @@ ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle
 
 
 
-# topics
+# 节点间的交互方式
+
+- 话题-topics
+
+- 服务-services
+
+- 动作-Action
+
+- 参数-parameters
+
+  
 
 ## topics
 
 - 主题是 ROS 图的重要组成部分，它们充当节点间交换消息的总线
 - 一个节点可以向任意数量的主题发布数据，并同时订阅任意数量的主题
 
-![image-20260116001951619](pics/image-20260116001951619.png)
-
-## 命令和操作
+![image-20260116001951619](pics/image-20260116001951619.png) **命令和操作**
 
 -  rqt_graph
 
@@ -91,12 +99,10 @@ ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle
 
 ## service
 
-### service
-
 - 服务是 ROS 图中节点间另一种通信方式。服务基于**呼叫-响应**模型，而非主题的发布-订阅模型。主题允许节点订阅数据流并持续获取更新，而服务**仅在客户端明确调用时才提供数据。**
 - ![image-20260116004812298](pics/image-20260116004812298.png)
 
-### 命令和操作
+**命令和操作**
 
 - list
 
@@ -148,8 +154,6 @@ ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle
 
 ## parameters
 
-### backgrounds
-
 - parameter
 
   - 作用（配置结点）：ROS 2 中的参数与各个节点相关联。参数用于在启动时（以及运行时）配置节点，而无需更改代码。参数的生命周期与节点的生命周期绑定（尽管节点可以实现某种持久化机制，以便在重启后重新加载参数值）。
@@ -190,3 +194,14 @@ ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle
      - **Post-Set**：参数变化**成功后**，执行反应（像“后处理”）。
 
 - 和参数交互：外部进程可以通过节点实例化时默认创建的参数服务执行参数操作
+
+
+
+
+
+## actions
+
+* 动作是通信类型之一，专为长时间运行的任务而设计。它们由三部分组成：目标、反馈和结果(a goal, feedback, and a result)
+  * Actions 使用客户端-服务器模型，类似于发布者-订阅者模型（详见主题）。“Action 客户端”节点向“Action 服务器”节点发送目标，后者确认目标并返回反馈流和结果。
+
+* ![image-20260121020016789](pics/image-20260121020016789.png)
