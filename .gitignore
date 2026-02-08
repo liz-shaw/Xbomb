@@ -25,6 +25,7 @@ AI-ML-DL-RL/*
 !AI-ML-DL-RL/DL/
 !AI-ML-DL-RL/DL/**
 
+
 # --------------------------------
 # 4. 反选 C++ mindmap (逐级放行)
 # --------------------------------
@@ -34,7 +35,7 @@ CodingBasics/*
 
 # 第二级：放行 CodingBasics/Cpp
 !CodingBasics/Cpp/
-CodingBasics/Cpp/*
+CodingBasics/Cpp/**
 
 # 第三级：放行 mindmap
 !CodingBasics/Cpp/mindmap/
