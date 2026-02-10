@@ -40,3 +40,25 @@ CodingBasics/*
 # 第三级：放行 mindmap
 !CodingBasics/Cpp/mindmap/
 !CodingBasics/Cpp/mindmap/**
+
+
+
+# 精确放行 ROBOTICS 下的部分内容
+# --------------------------------
+# 第一步：放行父文件夹 ROBOTICS 目录本身，但忽略其下的所有直接子项
+!ROBOTICS/
+ROBOTICS/*
+
+# 第二步：放行第一层子文件夹 robotics 和 REINFORCEMENT_LEARNING 的所有内容
+!ROBOTICS/robotics/
+!ROBOTICS/robotics/**
+
+!ROBOTICS/REINFORCEMENT_LEARNING/
+!ROBOTICS/REINFORCEMENT_LEARNING/**
+
+# 第三步：针对 ROS2 文件夹，采取“逐级深挖”策略
+!ROBOTICS/ROS2/          # 放行 ROS2 文件夹本身
+ROBOTICS/ROS2/* # 忽略 ROS2 下的所有内容（这样会屏蔽 Kurs）
+
+!ROBOTICS/ROS2/Notes/    # 放行 ROS2 下的 Notes 文件夹
+!ROBOTICS/ROS2/Notes/** # 放行 Notes 下的所有内容
