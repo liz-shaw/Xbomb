@@ -1,68 +1,68 @@
-# 1. 忽略所有
+# ===============================================================
+# 全局：先忽略所有，仅保留配置文件
+# ===============================================================
 *
 !.gitignore
 
-# --------------------------------
-# 2. 反选 ME
-# --------------------------------
+# ===============================================================
+# 模块：ME (机械工程) - 全量放行
+# ===============================================================
 !ME/
 !ME/**
 
-# --------------------------------
-# 3. 反选 GPU-DEEPLEARNING
-# --------------------------------
-# 第一级：放行 AI-ML-DL-RL 文件夹本身，但忽略其下所有内容
+# ===============================================================
+# 模块：AI-ML-DL-RL (人工智能) - 精准放行
+# ===============================================================
 !AI-ML-DL-RL/
 AI-ML-DL-RL/*
-
-# 第二级：放行其中的 GPU 文件夹
 !AI-ML-DL-RL/GPU-DEEPLEARNING/
 !AI-ML-DL-RL/GPU-DEEPLEARNING/**
-!AI-ML-DL-RL/ROS2/
-!AI-ML-DL-RL/ROS2/**
-!AI-ML-DL-RL/TOPICS/
-!AI-ML-DL-RL/TOPICS/**
 !AI-ML-DL-RL/DL/
 !AI-ML-DL-RL/DL/**
+!AI-ML-DL-RL/TOPICS/
+!AI-ML-DL-RL/TOPICS/**
+!AI-ML-DL-RL/ROS2/
+AI-ML-DL-RL/ROS2/*
+!AI-ML-DL-RL/ROS2/Notes/
+!AI-ML-DL-RL/ROS2/Notes/**
 
-
-# --------------------------------
-Coding
-# --------------------------------
-# 第一级：放行 CodingBasics
+# ===============================================================
+# 模块：CodingBasics (编程基础) - 精准放行
+# ===============================================================
 !CodingBasics/
 CodingBasics/*
-
-# 第二级：放行 CodingBasics/Cpp
 !CodingBasics/Cpp/
 !CodingBasics/Cpp/**
-
-# 第三级：放行 mindmap
-!CodingBasics/Cpp/mindmap/
-!CodingBasics/Cpp/mindmap/**
-
-
 !CodingBasics/Leetcode_Notes/
 !CodingBasics/Leetcode_Notes/**
+!CodingBasics/git.md
+!!CodingBasics/puedocode.md
 
-
-
-# 精确放行 ROBOTICS 下的部分内容
-# --------------------------------
-# 第一步：放行父文件夹 ROBOTICS 目录本身，但忽略其下的所有直接子项
+# ===============================================================
+# 模块：ROBOTICS (机器人学) - 递归放行 (排除 Kurs 编译项)
+# ===============================================================
 !ROBOTICS/
 ROBOTICS/*
-
-# 第二步：放行第一层子文件夹 robotics 和 REINFORCEMENT_LEARNING 的所有内容
 !ROBOTICS/robotics/
 !ROBOTICS/robotics/**
-
 !ROBOTICS/REINFORCEMENT_LEARNING/
 !ROBOTICS/REINFORCEMENT_LEARNING/**
+!ROBOTICS/ROS2/
+ROBOTICS/ROS2/*
+!ROBOTICS/ROS2/Notes/
+!ROBOTICS/ROS2/Notes/**
 
-# 第三步：针对 ROS2 文件夹，采取“逐级深挖”策略
-!ROBOTICS/ROS2/          # 放行 ROS2 文件夹本身
-ROBOTICS/ROS2/* # 忽略 ROS2 下的所有内容（这样会屏蔽 Kurs）
-
-!ROBOTICS/ROS2/Notes/    # 放行 ROS2 下的 Notes 文件夹
-!ROBOTICS/ROS2/Notes/** # 放行 Notes 下的所有内容
+# ===============================================================
+# 自动屏蔽：禁止所有路径下的开发缓存与编译产物
+# ===============================================================
+# 即使在上述放行的文件夹内，只要匹配以下规则也一律屏蔽
+**/.accelerate/
+**/__pycache__/
+**/*.pyc
+**/.idea/
+**/.vscode/
+**/.obsidian/
+**/build/
+**/install/
+**/log/
+**/.DS_Store
