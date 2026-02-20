@@ -166,5 +166,18 @@ sudo apt install git
 
 ### git
 
+> 详情看笔记："/Xbomb/CodingBasics/git.md"
+
+
+
+### tree
+
+```bash
+sudo apt install tree #安装
+tree # 直接打印文件树
+```
+
+
+
 
 
