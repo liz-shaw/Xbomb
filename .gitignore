@@ -31,6 +31,8 @@ AI-ML-DL-RL/ROS2/*
 # ===============================================================
 !CodingBasics/
 CodingBasics/*
+!CodingBasics/configuration/
+!CodingBasics/configuration/**
 !CodingBasics/Cpp/
 !CodingBasics/Cpp/**
 !CodingBasics/Leetcode_Notes/
