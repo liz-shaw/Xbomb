@@ -309,6 +309,116 @@ project/
     | **读写速度** | 最快 (内存)                    | 较慢 (硬盘读取)               | 一般                        |
     | **覆盖关系** | **同名普通变量会屏蔽缓存变量** | 只能通过 `FORCE` 覆盖普通变量 | 互不影响                    |
 
+### 指令语句
+
+#### 变量操作
+
+- **设置变量**：使用 `set()` 指令。
+
+  ```CMake
+  set(MY_VAR "hello")         # 单值
+  set(MY_LIST "a" "b" "c")    # 列表（实质是以分号分隔的字符串 "a;b;c"）
+  ```
+
+- **引用变量**：使用 `${}` 符号。
+
+  ```CMake
+  message("Value: ${MY_VAR}")
+  ```
+
+#### flow control
+
+- if语句
+
+  - 在 `if` 语句中引用变量，通常直接写变量名，不需要加 `${}`
+
+  - ```cmake
+    if(MSVC)
+        message("Running on Windows with MSVC")
+    elseif(APPLE)
+        message("Running on macOS")
+    else()
+        message("Other platform")
+    endif()
+    ```
+
+    
+
+- 循环
+
+  - **遍历列表**：
+
+    ```CMake
+    set(SOURCES main.cpp util.cpp)
+    foreach(f ${SOURCES})
+        message("Source file: ${f}")
+    endforeach()
+    ```
+
+    - `foreach(f ${SOURCES}) ... endforeach()`:遍历循环
+      - 等价于c++中: `for(auto const& f :SOURCES )`
+
+  - **范围循环**：
+
+    ```CMake
+    foreach(i RANGE 1 10) # 1到10
+        message("Index: ${i}")
+    endforeach()
+    ```
+
+#### 函数和宏定义
+
+##### 函数 (Function)
+
+- **特点**：拥有独立的作用域。在函数内部修改变量不会影响外部。
+
+```CMake
+function(my_function arg1)
+    message("Argument: ${arg1}")
+    set(INTERNAL_VAR "I am local") # 外部访问不到
+endfunction()
+```
+
+- ```cmake
+  function(<函数名> 参数1 参数2 ...)
+  	<函数体>
+  endfunction()
+  ```
+
+- `INTERNAL_VAR`: 函数栈帧私有的变量
+
+- 形参
+
+  - `arg1` 是你在定义函数时给**第一个参数**起的**名字**
+
+
+
+##### 宏 (Macro)
+
+- **特点**：类似 C 语言的宏替换。它直接将代码嵌入调用处，**没有**独立作用域。
+
+
+
+```CMake
+macro(my_macro arg1)
+    set(GLOBAL_LIKE_VAR "I affect the caller")
+endmacro()
+```
+
+
+
+##### 参数处理
+
+- 在函数/宏内部，CMake 提供了特殊的预定义变量：
+
+  - `ARGC`：参数总数。
+
+  - `ARGV`：所有参数的列表。
+
+  - `ARGN`：除了显式声明的参数外，多出来的参数列表。
+
+
+
 
 
 # template文件讲解
@@ -518,6 +628,42 @@ target_link_libraries(TestCMakeDemo CMakeDemo)
 
 ## 根目录下的CMakeList.txt
 
+### 最简单的cmake项目
+
+#### main.cpp
+
+```cpp
+#include <iostream>
+
+int main() {
+    std::cout << "Hello, CMake!" << std::endl;
+    return 0;
+}
+```
+
+#### CMakeList.txt
+
+```cmake
+# 1. 规定 CMake 的最低版本（防止老版本带不动新指令）
+cmake_minimum_required(VERSION 3.10)
+
+# 2. 给你的项目起个名字
+project(MyProject)
+
+# 3. 告诉 CMake：把 main.cpp 编译成一个叫 "hello_app" 的可执行文件, 生成hello_cpp.exe(windows)
+add_executable(hello_app main.cpp)
+```
+
+#### 运行
+
+- `mkdir build && cd build`
+- `cmake ..`: 告诉 CMake，清单在上一层文件夹里
+- `cmake --build .`
+- 运行结果
+  - 在build文件里，多出来一个hello_app文件（hello_cpp.exe windows
+
+
+
 ### 文件代码 
 
 ```cmake
@@ -667,3 +813,83 @@ install(
     )
 ```
 
+### 指令解析
+
+- 版本信息和输出路径
+  - `cmake_minimum_required(VERSION 3.1)`： Cmake版本
+  - `set(CMAKE_CXX_STANDARD 11)`： c++版本
+  - `project(CMakeDemo VERSION 1.0)`： 项目版本，用于后续安装路径和版本文件的生成
+  - 
+- 目录管理和输出目录设定
+  - `CMAKE_RUNTIME_OUTPUT_DIRECTORY `和`CMAKE_ARCHIVE_OUTPUT_DIRECTORY`： 强制将生成的二进制文件（bin）和静态库（lib）重定向，而非默认散落在构建目录中
+  - `FUNCTION PREPEND`
+    - 自定义函数，这个函数通过循环（`FOREACH`）给文件名加上绝对路径，并通过 `PARENT_SCOPE` 把结果传回主控文件
+  - `add_subdirectory()`
+    - 例子： `add_subdirectory(src)`
+      - **暂停**当前（根目录）的脚本运行
+      - **跳转**到 `src/` 文件夹
+      - **寻找**并执行 `src/CMakeLists.txt`
+      - **运行完毕**后，再跳回根目录继续执行后面的指令
+
+
+
+- 依赖查找与目标定义 (Dependencies & Target)
+
+  - `find_package`: 外部依赖库查找
+  - `add_library`: 
+    - `add_library(CMakeDemo STATIC ${CMakeDemo_SRC} ${CMakeDemo_INC})`
+    - 创建一个名为 `CMakeDemo` 的静态库（STATIC），它由源文件（SRC）和头文件（INC）组成
+    - `target_link_libraries`: 告诉编译器，如果要用我们的 `CMakeDemo`，必须同时链接 `LAPACK`
+
+- 安装与导出 (Installation & Export)
+
+  | **代码指令**                          | **搬运对象**       | **目的地** | **目的**                             |
+  | ------------------------------------- | ------------------ | ---------- | ------------------------------------ |
+  | `install(TARGETS CMakeDemo ...)`      | 静态库文件         | `lib/`     | 让程序能链接并运行                   |
+  | `install(FILES ${CMakeDemo_INC} ...)` | 头文件 (.h)        | `include/` | 让别人的代码能 `#include` 你的函数   |
+  | `install(EXPORT ...)`                 | 自动生成的配置信息 | `lib/`     | 告诉别人的 CMake：我叫什么，怎么用   |
+  | `install(FILES ...config.cmake)`      | 查找入口文件       | `lib/`     | 让 `find_package` 指令生效的“指路牌” |
+
+## 查找模块
+
+-  `make/FindCMakeDemo.cmake`
+
+  - 它允许其他项目在不显式指定路径的情况下，将您的库添加为依赖项
+
+  - 例如
+
+    - ```CMAKE
+      find_package(CMakeDemo REQUIRED)
+      target_link_libraries(target CMakeDemo)
+      ```
+
+- 文件结构
+
+  - 第一部分根据预设规则在您的系统中查找库文件和头文件
+  -  the second part populates and exports the CMake targets for users to include.
+
+## 使用
+
+- compile all targets 
+
+    ```bash
+    mkdir build
+    cd build
+    cmake ..
+    make 
+
+- To install our compiled targets in `/usr/local`
+
+  - ```bash
+    make install
+    ```
+
+- To run unit tests
+
+  - ```bash
+    make test
+    #或者
+    c
+    ```
+
+  - 
