@@ -35,8 +35,8 @@ CodingBasics/*
 !CodingBasics/configuration/**
 !CodingBasics/Cpp/
 !CodingBasics/Cpp/**
-!CodingBasics/Leetcode_Notes/
-!CodingBasics/Leetcode_Notes/**
+!CodingBasics/Leetcode/
+!CodingBasics/Leetcode/**
 !CodingBasics/git.md
 !CodingBasics/puedocode.md
 
